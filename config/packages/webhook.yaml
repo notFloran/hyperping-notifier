@@ -1,0 +1,6 @@
+framework:
+  webhook:
+    routing:
+      hyperping:
+        service: App\Webhook\HyperpingRequestParser
+        secret: "%env(WEBHOOK_SECRET)%"
