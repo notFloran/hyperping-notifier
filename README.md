@@ -33,7 +33,7 @@ If you wish to use a different notification service, you can install a Symfony N
 
 ## Create the webhook integration
 
-Go to https://app.hyperping.io/integrations/webhook and set the following endpoint : `https://your-app/webhook?secret=YOUR_SECRET`
+Go to https://app.hyperping.io/integrations/webhook and set the following endpoint : `https://your-app/webhook/hyperping?secret=YOUR_SECRET`
 
 ## License
 
