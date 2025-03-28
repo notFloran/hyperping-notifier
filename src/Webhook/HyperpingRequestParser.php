@@ -20,7 +20,6 @@ final class HyperpingRequestParser extends AbstractRequestParser
     protected function getRequestMatcher(): RequestMatcherInterface
     {
         return new ChainRequestMatcher([
-            new HostRequestMatcher('hyperping.io'),
             new IsJsonRequestMatcher(),
             new MethodRequestMatcher('POST'),
             new QueryParameterRequestMatcher('token')
