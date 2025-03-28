@@ -2,9 +2,13 @@
 
 namespace App\Webhook;
 
+use Symfony\Component\HttpFoundation\ChainRequestMatcher;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestMatcher\HostRequestMatcher;
 use Symfony\Component\HttpFoundation\RequestMatcher\IsJsonRequestMatcher;
+use Symfony\Component\HttpFoundation\RequestMatcher\MethodRequestMatcher;
+use Symfony\Component\HttpFoundation\RequestMatcher\QueryParameterRequestMatcher;
 use Symfony\Component\HttpFoundation\RequestMatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\RemoteEvent\RemoteEvent;
@@ -15,7 +19,12 @@ final class HyperpingRequestParser extends AbstractRequestParser
 {
     protected function getRequestMatcher(): RequestMatcherInterface
     {
-        return new IsJsonRequestMatcher();
+        return new ChainRequestMatcher([
+            new HostRequestMatcher('hyperping.io'),
+            new IsJsonRequestMatcher(),
+            new MethodRequestMatcher('POST'),
+            new QueryParameterRequestMatcher('token')
+        ]);
     }
 
     /**
