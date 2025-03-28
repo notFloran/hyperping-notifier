@@ -41,6 +41,7 @@ final class HyperpingRequestParser extends AbstractRequestParser
         // Validate the request payload.
         $checkPayload = $request->getPayload()->all('check') ?? [];
         if (!$request->getPayload()->has('event')
+            || !$request->getPayload()->has('text')
             || false === array_key_exists('monitorUuid', $checkPayload)) {
             throw new RejectWebhookException(Response::HTTP_BAD_REQUEST, 'Request payload does not contain required fields.');
         }
