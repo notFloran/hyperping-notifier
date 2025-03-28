@@ -20,6 +20,10 @@ final class HyperpingWebhookConsumer implements ConsumerInterface
     {
         $payload = $event->getPayload();
 
+        if (false === array_key_exists('text', $payload)) {
+            return;
+        }
+
         $notification = (new PushMessage('Monitoring', $payload['text']));
 
         $this->texter->send($notification);
