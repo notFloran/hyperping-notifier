@@ -12,6 +12,10 @@ use Symfony\Component\RemoteEvent\RemoteEvent;
 #[AsRemoteEventConsumer('hyperping')]
 final class HyperpingWebhookConsumer implements ConsumerInterface
 {
+    private const string UP = 'check.up';
+
+    private const string DOWN = 'check.down';
+
     public function __construct(private readonly TexterInterface $texter)
     {
     }
@@ -20,8 +24,16 @@ final class HyperpingWebhookConsumer implements ConsumerInterface
     {
         $payload = $event->getPayload();
 
-        $notification = (new PushMessage('Monitoring', $payload['text']));
+        $event = $payload['event'];
+        $checkPayload = $payload['check'];
 
-        $this->texter->send($notification);
+        $title = sprintf('%s %s', $event == self::UP ? '✅' : '🚨', $payload['text']);
+        $content = sprintf(
+            "URL: %s\nStatus: %s",
+            $checkPayload['url'],
+            $checkPayload['status'],
+        );
+
+        $this->texter->send(new PushMessage($title, $content));
     }
 }

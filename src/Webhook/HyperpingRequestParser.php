@@ -5,7 +5,6 @@ namespace App\Webhook;
 use Symfony\Component\HttpFoundation\ChainRequestMatcher;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestMatcher\HostRequestMatcher;
 use Symfony\Component\HttpFoundation\RequestMatcher\IsJsonRequestMatcher;
 use Symfony\Component\HttpFoundation\RequestMatcher\MethodRequestMatcher;
 use Symfony\Component\HttpFoundation\RequestMatcher\QueryParameterRequestMatcher;
@@ -42,7 +41,7 @@ final class HyperpingRequestParser extends AbstractRequestParser
         $checkPayload = $request->getPayload()->all('check') ?? [];
         if (!$request->getPayload()->has('event')
             || !$request->getPayload()->has('text')
-            || false === array_key_exists('monitorUuid', $checkPayload)) {
+            || !array_key_exists('monitorUuid', $checkPayload)) {
             throw new RejectWebhookException(Response::HTTP_BAD_REQUEST, 'Request payload does not contain required fields.');
         }
 
